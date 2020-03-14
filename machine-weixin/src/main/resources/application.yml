@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active:
+      - dev
+---
+server:
+  port: 8080
+  servlet:
+    context-path: /machine
+
+app:
+  apigateway:
+    host: qa-eoapi.shuyun.com
+    caller: plat-gateway
+    secret:
+system:
+  config:
+    address: qa-entspectrum.saasproj.shuyun.com
+spectrum:
+  key:
+  secret:
+
+spring:
+  profiles: dev
+

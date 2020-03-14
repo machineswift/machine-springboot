@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.machine.mybatis.dao.IDeptDAO">
+
+	<select id="findAll" resultType="Dept">
+		SELECT dept.no,dept.name FROM
+		TB_DEPT dept ;
+	</select>
+	<insert id="doCreate" parameterType="Dept" useGeneratedKeys="true"
+		keyProperty="no">
+		INSERT INTO TB_DEPT(name) VALUES (#{name});
+	</insert>
+</mapper>

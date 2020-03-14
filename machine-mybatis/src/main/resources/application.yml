@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active:
+    - dev
+---
+server:
+  port: 8080
+  context-path: /machine
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.machine.mybatis.vo
+  mapper-locations:
+  - classpath:mybatis/mapper/**/*.xml
+spring:
+  messages:
+    basename: i18n/messages
+  datasource:
+    type : com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/wx_guide_qa?useUnicode=true&autoReconnect=true&allowMultiQueries=true&useSSL=false
+    username: root
+    password: admin
+    filters : stat,wall,log4j
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 10
+      max-wait-millis: 800
+  profiles: dev

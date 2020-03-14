@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active:
+    - dev
+---
+server:
+  port: 8080
+  context-path: /machine
+spring:
+  messages:
+    basename: i18n/messages
+  redis:
+    host: 127.0.0.1
+    port: 6377
+    password: redis
+    timeout: 1000
+    database: 0
+    pool:
+      max-active: 32
+      max-idle: 12
+      min-idle: 6
+      max-wait: 1000
+  redis-two:
+    host: 127.0.0.1
+    port: 6378
+    password: redis
+    timeout: 1000
+    database: 0
+    pool:
+      max-active: 32
+      max-idle: 12
+      min-idle: 6
+      max-wait: 1000
+  profiles: dev

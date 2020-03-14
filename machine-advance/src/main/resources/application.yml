@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active:
+    - dev
+---    
+server:
+  port: 8080
+spring:
+  messages:
+    basename: i18n/messages  
+  profiles: dev
