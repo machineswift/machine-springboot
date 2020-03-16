@@ -2,6 +2,7 @@ package com.machine.weixin.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.machine.weixin.repository.BossAdapterRepository;
 import com.machine.weixin.repository.PlatAdapterRepository;
 import com.machine.weixin.repository.SpectrumRepository;
 import com.machine.weixin.repository.WeixinRepository;
@@ -18,28 +19,47 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WeiXinRepositoryConfig {
 
-    @Value("${app.apigateway.host}")
-    private String apiGatewayHost;
+    /*运营管理系统配置*/
+    @Value("${system.shuyun.boss.api.address}")
+    private String bossAddress;
+    @Value("${system.shuyun.boss.api.caller}")
+    private String bossCaller;
+    @Value("${system.shuyun.boss.api.secret}")
+    private String bossSecret;
 
-    @Value("${app.apigateway.caller}")
+    /*微信基础服务配置*/
+    @Value("${system.shuyun.gateway.api.address}")
+    private String apiGatewayAddress;
+    @Value("${system.shuyun.gateway.api.caller}")
     private String apiGatewayCaller;
-
-    @Value("${app.apigateway.secret}")
+    @Value("${system.shuyun.gateway.api.secret}")
     private String apiGatewaySecret;
 
+    /*配置中心配置*/
     @Value("${system.config.address}")
-    private String spectrumHost;
-
+    private String spectrumAddress;
     @Value("${spectrum.key}")
     private String spectrumUser;
-
     @Value("${spectrum.secret}")
     private String spectrumPassword;
+
+
+    @Bean
+    public BossAdapterRepository bossAdapterRepository() {
+        ObjectMapper objectMapper = RetrofitHelper.objectMapper(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+        return RetrofitHelper.createService("http://" + bossAddress, BossAdapterRepository.class, objectMapper, () -> {
+            Interceptor interceptor = new ApiGatewayInterceptor(bossCaller, bossSecret);
+
+            return RetrofitHelper.clientBuilder()
+                    .addInterceptor(interceptor)
+                    .build();
+        });
+    }
 
     @Bean
     public PlatAdapterRepository platAdapterRepository() {
         ObjectMapper objectMapper = RetrofitHelper.objectMapper(PropertyNamingStrategy.LOWER_CAMEL_CASE);
-        return RetrofitHelper.createService("http://" + apiGatewayHost, PlatAdapterRepository.class, objectMapper, () -> {
+        return RetrofitHelper.createService("http://" + apiGatewayAddress, PlatAdapterRepository.class, objectMapper, () -> {
             Interceptor interceptor = new ApiGatewayInterceptor(apiGatewayCaller, apiGatewaySecret);
 
             return RetrofitHelper.clientBuilder()
@@ -50,7 +70,7 @@ public class WeiXinRepositoryConfig {
 
     @Bean
     public WeixinRepository weixinRepository() {
-        return RetrofitHelper.createService("http://" + apiGatewayHost, WeixinRepository.class, () -> {
+        return RetrofitHelper.createService("http://" + apiGatewayAddress, WeixinRepository.class, () -> {
             Interceptor interceptor = new ApiGatewayInterceptor(apiGatewayCaller, apiGatewaySecret);
 
             return RetrofitHelper.clientBuilder()
@@ -61,7 +81,7 @@ public class WeiXinRepositoryConfig {
 
     @Bean
     public SpectrumRepository spectrumRepository() {
-        String host = "http://" + spectrumHost;
+        String host = "http://" + spectrumAddress;
         return RetrofitHelper.createService(host, SpectrumRepository.class, () -> {
             SpectrumRepository lr = RetrofitHelper.createService(host, SpectrumRepository.class);
             CookieInterceptor i = new CookieInterceptor();

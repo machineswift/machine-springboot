@@ -1,4 +1,4 @@
-package com.machine.weixin.repository.bean.account;
+package com.machine.weixin.repository.bean.weixin;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class OfficialAccountResponse {
+public class OfficialAccountWeiXinResponse {
     private String appId;
     private String nickName;
     private String headImg;
@@ -47,7 +47,6 @@ public class OfficialAccountResponse {
         public static class FuncscopeCategory {
             private Integer funcscopeCategoryId;
             private String name;
-
         }
     }
 }

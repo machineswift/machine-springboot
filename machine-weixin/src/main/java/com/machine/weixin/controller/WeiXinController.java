@@ -13,11 +13,15 @@ public class WeiXinController {
     @Autowired
     private WeiXinService weiXinService;
 
+    @GetMapping("boss")
+    public String boss() {
+        return weiXinService.boss();
+    }
+
     @GetMapping("weixin")
     public String weixin() {
         return weiXinService.weixin();
     }
-
 
     @GetMapping("plat")
     public String plat() {

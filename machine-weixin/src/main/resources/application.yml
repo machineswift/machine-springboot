@@ -8,14 +8,25 @@ server:
   servlet:
     context-path: /machine
 
-app:
-  apigateway:
-    host: qa-eoapi.shuyun.com
-    caller: plat-gateway
-    secret:
 system:
+  weixin:
+    thirdParty:
+      app:
+        key: wx2c513d75d728833f
+  shuyun:
+    gateway:
+      api:
+        address: qa-eoapi.shuyun.com
+        caller:
+        secret:
+    boss:
+      api:
+        address: qa-boss.ecrm.shuyun.com
+        caller:
+        secret:
   config:
     address: qa-entspectrum.saasproj.shuyun.com
+
 spectrum:
   key:
   secret:

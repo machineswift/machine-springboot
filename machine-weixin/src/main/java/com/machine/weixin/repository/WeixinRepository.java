@@ -25,19 +25,12 @@ public interface WeixinRepository {
 
     /**
      * 获取模板列表
-     *
-     * @param token
-     * @return
      */
     @GET("/plat-gateway/v1/weixin/weixin.cgi-bin.template.get_all_private_template/{token}")
     Single<TemplateInfos> getTemplateInfos(@Path("token") String token);
 
     /**
      * 发送模板消息
-     *
-     * @param token
-     * @param msg
-     * @return
      */
     @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.message.template.send/{token}")
     Single<SendTemplateMessageResp> sendTemplateMessage(@Path("token") String token,
@@ -49,10 +42,6 @@ public interface WeixinRepository {
 
     /**
      * 客服接口-发消息
-     *
-     * @param token
-     * @param msg
-     * @return
      */
     @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.message.custom.send/{token}")
     Single<PostResp> sendCustomMessage(@Path("token") String token,
@@ -63,10 +52,6 @@ public interface WeixinRepository {
 
     /**
      * 获取临时素材
-     *
-     * @param token
-     * @param mediaId
-     * @return
      */
     @GET("/plat-gateway/v1/weixin/weixin.cgi-bin.media.get/{token}")
     Single<Response<byte[]>> getMedia(@Path("token") String token,
@@ -75,18 +60,12 @@ public interface WeixinRepository {
 
     /**
      * 获取素材总数
-     *
-     * @param token
-     * @return
      */
     @GET("/plat-gateway/v1/weixin/weixin.cgi-bin.material.get_materialcount/{token}")
     Single<MediaCountResponse> getMediaCount(@Path("token") String token);
 
     /**
      * 获取素材列表
-     *
-     * @param token
-     * @return
      */
     @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.material.batchget_material/{token}")
     Single<BatchGetMaterialResponse> getMedias(@Path("token") String token,
@@ -97,10 +76,6 @@ public interface WeixinRepository {
 
     /**
      * 获取用户基本信息（包括UnionID机制）
-     *
-     * @param token
-     * @param openid
-     * @return
      */
     @GET("/plat-gateway/v1/weixin/weixin.cgi-bin.user.info/{token}")
     Single<UserInfo> getUserInfo(@Path("token") String token,
@@ -108,10 +83,6 @@ public interface WeixinRepository {
 
     /**
      * 批量获取用户基本信息
-     *
-     * @param token
-     * @param userList
-     * @return
      */
     @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.user.info.batchget/{token}")
     Single<UserInfos> getUserInfos(@Path("token") String token,
@@ -162,6 +133,4 @@ public interface WeixinRepository {
     @POST("/plat-gateway/v1/weixin/weixin.card.code.consume/{token}")
     Single<ConsumeCardCodeResp> consumeCardCode(@Path("token") String token,
                                                 @Body ConsumeCardCodeRequest request);
-
-
 }
