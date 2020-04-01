@@ -1,22 +1,21 @@
 package com.machine.weixin.repository.bean.weixin.qrcode;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @Data
 @NoArgsConstructor
-public abstract class QrcodeCreate {
+public class QrcodeCreate {
     private String actionName;
+    private Integer expireSeconds;
     protected ActionInfo actionInfo = new ActionInfo();
 
     @Data
     @NoArgsConstructor
-    static class ActionInfo {
+    public class ActionInfo {
         private Scene scene = new Scene();
 
         public void setSceneId(Integer sceneId) {
@@ -30,7 +29,7 @@ public abstract class QrcodeCreate {
 
     @Getter
     @NoArgsConstructor
-    static class Scene {
+    public class Scene {
         private String sceneStr;
         private Integer sceneId;
 

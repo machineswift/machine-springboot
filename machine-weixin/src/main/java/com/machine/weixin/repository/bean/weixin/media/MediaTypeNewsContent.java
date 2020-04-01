@@ -1,5 +1,6 @@
 package com.machine.weixin.repository.bean.weixin.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 public class MediaTypeNewsContent {
 
-    private Timestamp update_time;
+    @JsonProperty("update_time")
+    private Timestamp updateTime;
 
-    private Timestamp create_time;
+    @JsonProperty("create_time")
+    private Timestamp createTime;
 
-    private List<NewsItem> news_item;
+    @JsonProperty("news_item")
+    private List<NewsItem> newsItem;
 
 }

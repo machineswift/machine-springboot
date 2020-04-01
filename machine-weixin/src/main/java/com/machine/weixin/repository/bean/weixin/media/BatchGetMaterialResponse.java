@@ -1,5 +1,6 @@
 package com.machine.weixin.repository.bean.weixin.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 public class BatchGetMaterialResponse {
 
-    private Integer total_count;
+    @JsonProperty("total_count")
+    private Integer totalCount;
 
-    private Integer item_count;
+    @JsonProperty("item_count")
+    private Integer itemCount;
 
     private List<MediaTypeNewsItem> item;
 }

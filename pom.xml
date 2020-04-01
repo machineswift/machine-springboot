@@ -110,5 +110,7 @@
         <module>machine-pulsar</module>
         <module>machine-rocketmq</module>
         <module>machine-weixin</module>
+        <module>machinnne-kafka</module>
+        <module>machine-docker</module>
     </modules>
 </project>

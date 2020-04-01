@@ -1,0 +1,197 @@
+<configuration scan="true" scanPeriod="120 seconds" debug="true">
+
+	<!-- 项目名称及日志目录定义 -->
+	<property name="APP" value="machine" />
+	<property name="maxFileSize" value="512MB" />
+	<property name="maxHistory" value="30" />
+	<property name="LOG_HOME" value="/Users/machine/Downloads/temp/data/log/${APP}" />
+
+
+	<!-- ========================彩色日志======================== start-->
+	<!-- 彩色日志依赖的渲染类 -->
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+	<conversionRule conversionWord="wex"
+					converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+	<conversionRule conversionWord="wEx"
+					converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+	<!-- 彩色日志格式 -->
+	<property name="CONSOLE_LOG_PATTERN"
+			  value="${CONSOLE_LOG_PATTERN:-%clr([%d{yyyy-MM-dd HH:mm:ss.SSS}]){faint} %clr([${LOG_LEVEL_PATTERN:-%5p}]) %clr([${PID:- }]){magenta} %clr([%t]){faint} %clr(%logger:%method:%L){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+	<!-- ========================彩色日志======================== end-->
+
+	<!-- ========================appender的定义 ========================start== -->
+	<!-- 记录到控制台，仅用于本地开发 -->
+	<!-- TODO 本地开发环境只需要控制台输出，其他Appender仅作为测试logback配置，后期可删除其他appender -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<springProfile name="beta">
+		<appender name="DEBUG-APPENDER"
+				  class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_HOME}/${APP}_debug.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.${APP}_debug.log.%i
+				</FileNamePattern>
+				<MaxHistory>${maxHistory}</MaxHistory>
+				<TimeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<MaxFileSize>${maxFileSize}</MaxFileSize>
+				</TimeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+					<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]
+						%logger{0}:%L- %msg%n</pattern>
+				</layout>
+				<charset>UTF-8</charset>
+			</encoder>
+		</appender>
+	</springProfile>
+	<springProfile name="beta,product">
+		<appender name="INFO-APPENDER"
+				  class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_HOME}/${APP}_info.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.${APP}_info.log.%i
+				</FileNamePattern>
+				<MaxHistory>${maxHistory}</MaxHistory>
+				<TimeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<MaxFileSize>${maxFileSize}</MaxFileSize>
+				</TimeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+					<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]
+						%logger{1}:%L- %msg%n</pattern>
+				</layout>
+				<charset>UTF-8</charset>
+			</encoder>
+		</appender>
+
+		<appender name="WARN-APPENDER"
+				  class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_HOME}/${APP}_warn.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.${APP}_warn.log.%i
+				</FileNamePattern>
+				<MaxHistory>${maxHistory}</MaxHistory>
+				<TimeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<MaxFileSize>${maxFileSize}</MaxFileSize>
+				</TimeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+					<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+						- %msg%n</pattern>
+				</layout>
+				<charset>UTF-8</charset>
+			</encoder>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>WARN</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+		</appender>
+		<appender name="ERROR-APPENDER"
+				  class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_HOME}/${APP}_error.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.${APP}_error.log.%i
+				</FileNamePattern>
+				<MaxHistory>${maxHistory}</MaxHistory>
+				<TimeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<MaxFileSize>${maxFileSize}</MaxFileSize>
+				</TimeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+					<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+						- %msg%n</pattern>
+				</layout>
+				<charset>UTF-8</charset>
+			</encoder>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+		</appender>
+	</springProfile>
+	<!-- =======================appender的定义 ========================end== -->
+
+	<!-- ============================logger的定义 ======start====================== -->
+	<springProfile name="dev">
+		<logger name="com.machine" additivity="true">
+			<level value="DEBUG" />
+		</logger>
+		<logger name="org.apache" additivity="true">
+			<level value="INFO" />
+		</logger>
+		<logger name="org.springframework" additivity="true">
+			<level value="INFO" />
+		</logger>
+	</springProfile>
+	<springProfile name="beta">
+		<logger name="com.machine" additivity="true">
+			<level value="DEBUG" />
+		</logger>
+		<logger name="org.apache" additivity="true">
+			<level value="INFO" />
+		</logger>
+		<logger name="org.springframework" additivity="true">
+			<level value="INFO" />
+		</logger>
+	</springProfile>
+	<springProfile name="product">
+		<logger name="com.machine" additivity="true">
+			<level value="INFO" />
+		</logger>
+		<logger name="org.apache" additivity="true">
+			<level value="INFO" />
+		</logger>
+		<logger name="org.springframework" additivity="true">
+			<level value="INFO" />
+		</logger>
+	</springProfile>
+	<!-- ============================logger的定义 ======end====================== -->
+
+	<!-- ======================Root logger的定义 ========start============== -->
+	<springProfile name="dev">
+		<root>
+			<level value="INFO" />
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</springProfile>
+	<springProfile name="beta">
+		<root>
+			<level value="INFO" />
+			<appender-ref ref="DEBUG-APPENDER" />
+			<appender-ref ref="INFO-APPENDER" />
+			<appender-ref ref="WARN-APPENDER" />
+			<appender-ref ref="ERROR-APPENDER" />
+		</root>
+	</springProfile>
+	<springProfile name="product">
+		<root>
+			<level value="INFO" />
+			<appender-ref ref="INFO-APPENDER" />
+			<appender-ref ref="WARN-APPENDER" />
+			<appender-ref ref="ERROR-APPENDER" />
+		</root>
+	</springProfile>
+	<!-- ======================Root logger的定义 ========end============== -->
+</configuration>

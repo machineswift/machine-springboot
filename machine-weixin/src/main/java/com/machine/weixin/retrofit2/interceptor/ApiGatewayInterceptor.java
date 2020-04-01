@@ -8,6 +8,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,7 @@ public class ApiGatewayInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
         String timestamp = timeFormat.format(System.currentTimeMillis());
 
         Request originalRequest = chain.request();

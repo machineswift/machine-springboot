@@ -1,26 +1,32 @@
 package com.machine.weixin.repository.bean.weixin.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class MediaCountResponse {
-    private Integer voice_count;
 
-    private Integer video_count;
+    @JsonProperty("voice_count")
+    private Integer voiceCount;
 
-    private Integer image_count;
+    @JsonProperty("video_count")
+    private Integer videoCount;
 
-    private Integer news_count;
+    @JsonProperty("image_count")
+    private Integer imageCount;
 
-    public MediaCountResponse(Integer voice_count,
-                              Integer video_count,
-                              Integer image_count,
-                              Integer news_count) {
-        this.voice_count = voice_count;
-        this.video_count = video_count;
-        this.image_count = image_count;
-        this.news_count = news_count;
+    @JsonProperty("news_count")
+    private Integer newsCount;
+
+    public MediaCountResponse(Integer voiceCount,
+                              Integer videoCount,
+                              Integer imageCount,
+                              Integer newsCount) {
+        this.voiceCount = voiceCount;
+        this.videoCount = videoCount;
+        this.imageCount = imageCount;
+        this.newsCount = newsCount;
     }
 }

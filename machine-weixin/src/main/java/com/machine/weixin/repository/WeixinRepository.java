@@ -1,13 +1,11 @@
 package com.machine.weixin.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.machine.weixin.repository.bean.weixin.PostResp;
 import com.machine.weixin.repository.bean.weixin.card.*;
-import com.machine.weixin.repository.bean.weixin.media.BatchGetMaterialRequest;
-import com.machine.weixin.repository.bean.weixin.media.BatchGetMaterialResponse;
-import com.machine.weixin.repository.bean.weixin.media.MediaCountResponse;
+import com.machine.weixin.repository.bean.weixin.media.*;
 import com.machine.weixin.repository.bean.weixin.message.CustomMessage;
 import com.machine.weixin.repository.bean.weixin.qrcode.QrcodeCreate;
+import com.machine.weixin.repository.bean.weixin.qrcode.QrcodeResp;
 import com.machine.weixin.repository.bean.weixin.template.SendTemplateMessageResp;
 import com.machine.weixin.repository.bean.weixin.template.TemplateInfos;
 import com.machine.weixin.repository.bean.weixin.template.TemplateMessage;
@@ -64,6 +62,14 @@ public interface WeixinRepository {
     @GET("/plat-gateway/v1/weixin/weixin.cgi-bin.material.get_materialcount/{token}")
     Single<MediaCountResponse> getMediaCount(@Path("token") String token);
 
+
+    /**
+     * 获取永久素材
+     */
+    @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.material.get_material/{token}")
+    Single<MediaTypeNewsContent> getMedia(@Path("token") String token,
+                                          @Body GetMaterialRequest request);
+
     /**
      * 获取素材列表
      */
@@ -96,8 +102,8 @@ public interface WeixinRepository {
      * 创建二维码
      */
     @POST("/plat-gateway/v1/weixin/weixin.cgi-bin.qrcode.create/{token}")
-    Single<JsonNode> createQrcode(@Path("token") String token,
-                                  @Body QrcodeCreate body);
+    Single<QrcodeResp> createQrcode(@Path("token") String token,
+                                    @Body QrcodeCreate body);
 
 
     // 微信网页开发 --> 微信JS-SDK说明文档

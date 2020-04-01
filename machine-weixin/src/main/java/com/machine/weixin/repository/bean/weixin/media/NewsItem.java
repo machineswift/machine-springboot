@@ -1,5 +1,6 @@
 package com.machine.weixin.repository.bean.weixin.media;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +9,11 @@ import lombok.NoArgsConstructor;
 public class NewsItem {
     private String title;
 
-    private String thumb_media_id;
+    @JsonProperty("thumb_media_id")
+    private String thumbMediaId;
 
-    private String show_cover_pic;
+    @JsonProperty("show_cover_pic")
+    private String showCoverPic;
 
     private String author;
 
@@ -20,5 +23,6 @@ public class NewsItem {
 
     private String url;
 
-    private String content_source_url;
+    @JsonProperty("content_source_url")
+    private String contentSourceUrl;
 }
